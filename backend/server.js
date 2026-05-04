@@ -9,25 +9,24 @@ const hotelRoutes = require('./routes/hotelRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 
-// Initialize express app
+// Initialize app
 const app = express();
 
-// Connect to database
+// Connect DB
 connectDB();
 
-// ✅ CORS CONFIG (FIXED)
+
+// ✅ CORS FIX (IMPORTANT)
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://hotelbooking-five-snowy.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: true,              // allows all origins (best for Vercel dynamic URLs)
     credentials: true
 }));
+
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -35,12 +34,14 @@ app.use('/api/hotels', hotelRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/bookings', bookingRoutes);
 
+
 // Root route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to ZOVA Hotel Booking API' });
 });
 
-// Error handling middleware
+
+// Error handler
 app.use((err, req, res, next) => {
     console.error("ERROR:", err.message);
     res.status(500).json({
@@ -48,6 +49,7 @@ app.use((err, req, res, next) => {
         error: err.message
     });
 });
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
