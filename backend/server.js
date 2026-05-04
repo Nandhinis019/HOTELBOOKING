@@ -15,8 +15,16 @@ const app = express();
 // Connect to database
 connectDB();
 
+// ✅ CORS FIX (IMPORTANT)
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://hotelbooking.vercel.app", // ⚠️ replace with your actual Vercel URL
+    ],
+    credentials: true
+}));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
