@@ -15,12 +15,13 @@ const app = express();
 // Connect to database
 connectDB();
 
-// ✅ CORS FIX (IMPORTANT)
+// ✅ CORS CONFIG (FIXED)
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://hotelbooking.vercel.app", // ⚠️ replace with your actual Vercel URL
+        "https://hotelbooking-five-snowy.vercel.app"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
@@ -41,8 +42,11 @@ app.get('/', (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ message: 'Something went wrong!', error: err.message });
+    console.error("ERROR:", err.message);
+    res.status(500).json({
+        message: 'Something went wrong!',
+        error: err.message
+    });
 });
 
 // Start server
