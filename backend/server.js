@@ -9,18 +9,21 @@ const hotelRoutes = require('./routes/hotelRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 
-// Initialize app
 const app = express();
 
 // Connect DB
 connectDB();
 
 
-// ✅ CORS FIX (IMPORTANT)
+// ✅ FINAL CORS FIX (WORKS WITH VERCEL)
 app.use(cors({
-    origin: true,              // allows all origins (best for Vercel dynamic URLs)
-    credentials: true
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// Handle preflight requests
+app.options("*", cors());
 
 
 // Middleware
